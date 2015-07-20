@@ -1,12 +1,12 @@
 <?php
 
-namespace h4kuna\Ares;
+namespace Aurielle\Ares;
 
 use Nette;
 
 /**
  * @author Milan Matějček <milan.matejcek@gmail.com>
- * @author Václav Vrbka
+ * @author Václav Vrbka <aurielle@aurielle.cz>
  */
 class Ares extends Nette\Object
 {

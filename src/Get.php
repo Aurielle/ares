@@ -1,6 +1,6 @@
 <?php
 
-namespace h4kuna\Ares;
+namespace Aurielle\Ares;
 
 use h4kuna\CUrl,
 	Nette;
