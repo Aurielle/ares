@@ -30,7 +30,7 @@ class AresTest extends \Tester\TestCase
 		Assert::same(Tests\Utils::getContent($in), $data);
 	}
 
-	public function testMenchart()
+	public function testMerchant()
 	{
 		$in = '27082440';
 		/* @var $data Data */

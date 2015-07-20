@@ -193,9 +193,9 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 	 */
 
 	/**
-	 * Actual value
+	 * Current value
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function current()
 	{
@@ -203,7 +203,7 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 	}
 
 	/**
-	 * Actual key of value
+	 * Current key
 	 *
 	 * @return string
 	 */
@@ -222,7 +222,7 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 		return next($this->data);
 	}
 
-	/** @retrun void */
+	/** @return void */
 	public function rewind()
 	{
 		reset($this->data);
