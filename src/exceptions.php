@@ -6,3 +6,5 @@ abstract class AresException extends \Exception {}
 
 class InNotFoundExceptions extends AresException {}
 
+class UndefinedOffsetException extends AresException {}
+

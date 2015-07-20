@@ -162,7 +162,8 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 		if ($this->offsetExists($offset)) {
 			return $this->data[$offset];
 		}
-		throw new AresException('Undefined offset: ' . $offset);
+
+		throw new UndefinedOffsetException('Undefined offset: ' . $offset);
 	}
 
 	/**
