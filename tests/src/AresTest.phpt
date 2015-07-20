@@ -13,7 +13,6 @@ require_once __DIR__ . '/../bootstrap.php';
  */
 class AresTest extends \Tester\TestCase
 {
-
 	/** @var Ares */
 	private $ares;
 
@@ -38,6 +37,29 @@ class AresTest extends \Tester\TestCase
 		Assert::same(Tests\Utils::getContent($in), $data);
 	}
 
+	public function testInvalidIdentificationNumber()
+	{
+		$in = '12345678';
+		Assert::exception(function() use ($in) {
+			$this->ares->loadData($in);
+		}, IdentificationNumberNotFoundException::class);
+	}
+
+	public function testExpiredIdentificationNumberError()
+	{
+		$in = '25596641';
+		Assert::exception(function() use ($in) {
+			$this->ares->loadData($in);
+		}, IdentificationNumberNotFoundException::class);
+	}
+
+	public function testExpiredIdentificationNumberSuccess()
+	{
+		$in = '25596641';
+		/* @var $data Data */
+		$data = (string) $this->ares->loadData($in, TRUE);
+		Assert::same(Tests\Utils::getContent($in), $data);
+	}
 }
 
 $test = new AresTest;
