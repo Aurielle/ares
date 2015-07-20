@@ -37,7 +37,7 @@ class Get extends Nette\Object implements IRequest
 	 * Load XML and fill Data object
 	 * @param string $inn
 	 * @return Data
-	 * @throws InNotFoundExceptions
+	 * @throws IdentificationNumberNotFoundException
 	 */
 	private function loadXML($inn)
 	{
@@ -46,7 +46,7 @@ class Get extends Nette\Object implements IRequest
 		$xmlSource = CUrl\CurlBuilder::download(self::URL . (string) $IN);
 		$xml = @simplexml_load_string($xmlSource);
 		if (!$xml) {
-			throw new InNotFoundExceptions;
+			throw new IdentificationNumberNotFoundException;
 		}
 
 		$ns = $xml->getDocNamespaces();
