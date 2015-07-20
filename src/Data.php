@@ -63,10 +63,10 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 		return $this->set('in', $s);
 	}
 
-	public function setTIN($s)
+	public function setVatIN($s)
 	{
-		$this->set('tin', $s);
-		return $this->set('vat_pay', (bool) $this->data['tin']);
+		$this->set('vat_in', !empty($s) ? $s : NULL);
+		return $this->set('vat_payer', !empty($s));
 	}
 
 	public function setZip($s)

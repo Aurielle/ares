@@ -66,7 +66,7 @@ class Get extends Nette\Object implements IRequest
 		}
 
 		$this->data->setIN($xmlEl->ICO)
-				->setTIN($xmlEl->DIC)
+				->setVatIN($xmlEl->DIC)
 				->setCity($xmlEl->AA->N)
 				->setCompany($xmlEl->OF)
 				->setStreet($street)
