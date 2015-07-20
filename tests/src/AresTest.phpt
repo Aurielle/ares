@@ -9,6 +9,7 @@ require_once __DIR__ . '/../bootstrap.php';
 
 /**
  * @author Milan Matějček
+ * @TestCase
  */
 class AresTest extends \Tester\TestCase
 {
