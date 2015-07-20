@@ -11,20 +11,16 @@ use ArrayAccess,
 
 /**
  * @author Milan Matějček
+ * @author Václav Vrbka
  */
 class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 {
+	private $data = [];
 
-	private $data = array();
 
-	/**
-	 * @param string $s
-	 * @return Data
-	 */
 	public function setActive($s)
 	{
-		$this->data['active'] = strval($s) == 'Aktivní';
-		return $this;
+		return $this->set('active', strval($s) === 'Aktivní');
 	}
 
 	public function setCity($s)
@@ -54,8 +50,7 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 
 	public function setPerson($s)
 	{
-		$this->data['person'] = strval($s) <= '108';
-		return $this;
+		return $this->set('person', strval($s) <= '108');
 	}
 
 	public function setStreet($s)
@@ -90,6 +85,8 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 	{
 		if ($val instanceof DateTime) {
 			$this->data[$key] = $val->format(DateTime::ISO8601);
+		} elseif (is_bool($val) || is_null($val)) {
+			$this->data[$key] = $val;
 		} else {
 			$this->data[$key] = strval($val);
 		}
@@ -102,7 +99,7 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 	 */
 	public function clean()
 	{
-		$this->data = array();
+		$this->data = [];
 		return $this;
 	}
 
@@ -112,13 +109,13 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 	 * @param array $map
 	 * @return array
 	 */
-	public function toArray(array $map = array())
+	public function toArray(array $map = [])
 	{
 		$this->setFileNumberAndCourt();
 		if (!$map) {
 			return $this->data;
 		}
-		$out = array();
+		$out = [];
 		foreach ($map as $k => $v) {
 			if ($this->offsetExists($k)) {
 				if (!$v) {
@@ -244,5 +241,4 @@ class Data extends Nette\Object implements ArrayAccess, Iterator, Countable
 	{
 		return count($this->data);
 	}
-
 }
