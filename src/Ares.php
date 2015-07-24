@@ -1,46 +1,85 @@
 <?php
+/**
+ * This file is part of Ares.
+ * Copyright (c) 2015 Václav Vrbka (http://aurielle.cz)
+ */
 
-namespace Aurielle\Ares;
+namespace Grifart\Ares;
 
 use Nette;
 
+
 /**
  * @author Milan Matějček <milan.matejcek@gmail.com>
- * @author Václav Vrbka <aurielle@aurielle.cz>
+ * @author Václav Vrbka <vaclav.vrbka@grifart.cz>
  */
 class Ares extends Nette\Object
 {
+	/** @var HttpDriver */
+	private $httpDriver;
 
-	/** @var IRequest */
-	private $request;
+	/** @var Cache */
+	private $cache;
 
-	public function __construct(IRequest $request = NULL)
+
+	public function __construct(HttpDriver $httpDriver, Cache $cache)
 	{
-		if ($request === NULL) {
-			$request = new Get();
+		$this->httpDriver = $httpDriver;
+		$this->cache = $cache;
+	}
+
+
+	/**
+	 * Validates an identification number.
+	 *
+	 * Identification number is exactly eight digits long, for algorithm explanation please visit the URL below.
+	 * @see http://phpfashion.com/jak-overit-platne-ic-a-rodne-cislo
+	 *
+	 * @param string|int $in Identification number to validate
+	 * @return bool
+	 */
+	public static function validateIdentificationNumber($in)
+	{
+		// be liberal in what you receive
+		$in = preg_replace('#\s+#', '', $in);
+
+		// is exactly 8 digits?
+		if (!preg_match('#^\d{8}$#', $in)) {
+			return FALSE;
 		}
-		$this->request = $request;
+
+		// checksum
+		$a = 0;
+		for ($i = 0; $i < 7; $i++) {
+			$a += $in[$i] * (8 - $i);
+		}
+
+		$a = $a % 11;
+		if ($a === 0) {
+			$c = 1;
+		} elseif ($a === 1) {
+			$c = 0;
+		} else {
+			$c = 11 - $a;
+		}
+
+		return (int) $in[7] === $c;
 	}
 
-	/**
-	 * Load fresh data.
-	 * @param int|string $inn Identification number
-	 * @param bool $includeExpired Whether to include details about old/expired subjects
-	 * @return Data
-	 */
-	public function loadData($inn, $includeExpired = FALSE)
+	public function findDetails($in, $includeExpired = FALSE)
 	{
-		$this->request->clean();
-		return $this->request->loadData($inn, $includeExpired);
-	}
+		$in = (string) $in;
+		if (!self::validateIdentificationNumber($in)) {
+			throw new ValidationException('This identification number does not meet schematic requirements and therefore is invalid.');
+		}
 
-	/**
-	 * Get temporary data.
-	 * @return Data
-	 */
-	public function getData()
-	{
-		return $this->request->loadData();
-	}
+		$data = $this->cache->get($in);
+		if ($data === NULL) {
+			/** @var SubjectInfo $data */
+			$data = $this->httpDriver->fetch($in, $includeExpired);
+			return $this->cache->save($in, $data);
+		}
 
+		return $data;
+	}
 }

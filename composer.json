@@ -1,8 +1,8 @@
 {
-	"name": "aurielle/ares",
+	"name": "grifart/ares",
 	"type": "library",
 	"description": "Provides information about subjects by their identification number from the ARES database (in Czech Republic).",
-	"homepage": "https://github.com/Aurielle/ares",
+	"homepage": "https://github.com/grifart/ares",
 	"license": "MIT",
 	"authors": [
 		{
@@ -12,16 +12,19 @@
 		},
 		{
 			"name": "Václav Vrbka",
-			"homepage": "https://www.aurielle.cz"
+			"email": "vaclav.vrbka@grifart.cz",
+			"homepage": "https://www.grifart.cz"
 		}
 	],
 	"require": {
 		"php": ">= 5.5.0",
-		"h4kuna/object-wrapper": "~1.0.9"
+		"nette/utils": "~2.2",
+		"nette/caching": "~2.2",
+		"kdyby/curl": "~2.2"
 	},
 	"autoload": {
 		"psr-4": {
-			"Aurielle\\Ares\\": "src/"
+			"Grifart\\Ares\\": "src/"
 		},
 		"files": ["src/exceptions.php"]
 	},
