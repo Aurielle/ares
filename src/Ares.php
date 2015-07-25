@@ -15,16 +15,16 @@ use Nette;
  */
 class Ares extends Nette\Object
 {
-	/** @var HttpDriver */
-	private $httpDriver;
+	/** @var IDriver */
+	private $driver;
 
 	/** @var Cache */
 	private $cache;
 
 
-	public function __construct(HttpDriver $httpDriver, Cache $cache)
+	public function __construct(IDriver $driver, Cache $cache)
 	{
-		$this->httpDriver = $httpDriver;
+		$this->driver = $driver;
 		$this->cache = $cache;
 	}
 
@@ -76,7 +76,7 @@ class Ares extends Nette\Object
 		$data = $this->cache->get($in);
 		if ($data === NULL) {
 			/** @var SubjectInfo $data */
-			$data = $this->httpDriver->fetch($in, $includeExpired);
+			$data = $this->driver->fetch($in, $includeExpired);
 			return $this->cache->save($in, $data);
 		}
 

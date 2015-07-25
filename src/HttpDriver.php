@@ -13,7 +13,7 @@ use Nette;
 /**
  * Information fetching layer for Ares. Do not use standalone.
  */
-class HttpDriver extends Nette\Object
+class HttpDriver extends Nette\Object implements IDriver
 {
 	/** URL for API requests */
 	const URL = 'http://wwwinfo.mfcr.cz/cgi-bin/ares/darv_bas.cgi';
