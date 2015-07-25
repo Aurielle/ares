@@ -67,6 +67,14 @@ class Ares extends Nette\Object
 		return (int) $in[7] === $c;
 	}
 
+	/**
+	 * Fetches details about an identification number.
+	 *
+	 * @param string|int $in
+	 * @param bool $includeExpired
+	 * @return SubjectInfo
+	 * @throws ValidationException
+	 */
 	public function findDetails($in, $includeExpired = FALSE)
 	{
 		$in = (string) $in;
