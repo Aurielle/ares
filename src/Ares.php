@@ -34,6 +34,7 @@ class Ares extends Nette\Object
 	 *
 	 * Identification number is exactly eight digits long, for algorithm explanation please visit the URL below.
 	 * @see http://phpfashion.com/jak-overit-platne-ic-a-rodne-cislo
+	 * @author David Grudl
 	 *
 	 * @param string|int $in Identification number to validate
 	 * @return bool
