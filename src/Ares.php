@@ -72,7 +72,7 @@ class Ares extends Nette\Object
 	 *
 	 * @param string|int $in
 	 * @param bool $includeExpired
-	 * @return SubjectInfo
+	 * @return Subject
 	 * @throws ValidationException
 	 */
 	public function findDetails($in, $includeExpired = FALSE)
@@ -84,7 +84,7 @@ class Ares extends Nette\Object
 
 		$data = $this->cache->get($in);
 		if ($data === NULL) {
-			/** @var SubjectInfo $data */
+			/** @var Subject $data */
 			$data = $this->driver->fetch($in, $includeExpired);
 			return $this->cache->save($in, $data);
 		}

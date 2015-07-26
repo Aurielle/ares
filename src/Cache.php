@@ -39,7 +39,7 @@ class Cache extends Nette\Object
 		return $this->netteCache->load($in);
 	}
 
-	public function save($in, SubjectInfo $data)
+	public function save($in, Subject $data)
 	{
 		return $this->netteCache->save($in, $data, [
 			Caching\Cache::EXPIRE => $this->expiration,

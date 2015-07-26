@@ -36,7 +36,7 @@ class HttpDriver extends Nette\Object implements IDriver
 	 *
 	 * @param string $in
 	 * @param bool $includeExpired
-	 * @return SubjectInfo
+	 * @return Subject
 	 * @throws FailedRequestException
 	 * @throws UnknownSubjectException
 	 * @throws XmlParsingException
@@ -73,7 +73,7 @@ class HttpDriver extends Nette\Object implements IDriver
 			$street .= '/' . $subject->AA->CO;
 		}
 
-		return new SubjectInfo([
+		return new Subject([
 			'identificationNumber' => $subject->ICO,
 			'vatIdentificationNumber' => $subject->DIC ?: NULL,
 			'vatPayer' => !empty($subject->DIC),

@@ -9,7 +9,7 @@ namespace Grifart\Ares;
 use Nette;
 
 
-class SubjectInfo extends Nette\Object
+class Subject extends Nette\Object
 {
 	/** @var string */
 	private $identificationNumber;

@@ -13,7 +13,7 @@ interface IDriver
 	 * Fetches data of one subject identified by his IN from the ARES database.
 	 * @param string $in
 	 * @param bool $includeExpired
-	 * @return SubjectInfo
+	 * @return Subject
 	 */
 	function fetch($in, $includeExpired = FALSE);
 }
