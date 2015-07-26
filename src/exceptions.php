@@ -44,6 +44,7 @@ class XmlParsingException extends AresException
 	}
 
 	/**
+	 * Allows to retrieve all XML encountered parsing errors
 	 * @return array
 	 */
 	public function getErrors()
