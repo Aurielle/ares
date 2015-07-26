@@ -114,7 +114,7 @@ class HttpDriver extends Nette\Object implements IDriver
 	private function parseXml($response)
 	{
 		$previous = libxml_use_internal_errors(TRUE);
-		$xml = @simplexml_load_string($response);
+		$xml = @simplexml_load_string($response); // intentionally @ - errors are handled separately
 
 		if (!$xml) {
 			$errors = libxml_get_errors();
