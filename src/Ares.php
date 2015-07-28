@@ -71,11 +71,10 @@ class Ares extends Nette\Object
 	 * Fetches details about an identification number.
 	 *
 	 * @param string|int $in
-	 * @param bool $includeExpired
 	 * @return Subject
 	 * @throws ValidationException
 	 */
-	public function findDetails($in, $includeExpired = FALSE)
+	public function findDetails($in)
 	{
 		$in = (string) $in;
 		if (!self::validateIdentificationNumber($in)) {
@@ -85,7 +84,7 @@ class Ares extends Nette\Object
 		$data = $this->cache->get($in);
 		if ($data === NULL) {
 			/** @var Subject $data */
-			$data = $this->driver->fetch($in, $includeExpired);
+			$data = $this->driver->fetch($in);
 			return $this->cache->save($in, $data);
 		}
 

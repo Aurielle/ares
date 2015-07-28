@@ -38,16 +38,15 @@ class BasicDriver extends Nette\Object implements IDriver
 	 * @see http://wwwinfo.mfcr.cz/ares/xml_doc/schemas/uvis_datatypes/v_1.0.3/uvis_datatypes_v_1.0.3.xsd
 	 *
 	 * @param string $in
-	 * @param bool $includeExpired
 	 * @return Ares\Subject
 	 * @throws Ares\FailedRequestException
 	 * @throws Ares\UnknownSubjectException
 	 * @throws Ares\XmlParsingException
 	 */
-	public function fetch($in, $includeExpired = FALSE)
+	public function fetch($in)
 	{
 		try {
-			$request = new Curl\Request($this->buildUrl($in, $includeExpired));
+			$request = new Curl\Request($this->buildUrl($in));
 			$response = $this->curlSender->send($request);
 		} catch (\Exception $e) {
 			throw new Ares\FailedRequestException('Querying ARES database failed: ' . $e->getMessage(), $e->getCode(), $e);
@@ -93,15 +92,13 @@ class BasicDriver extends Nette\Object implements IDriver
 	 * Builds request URL.
 	 * @see http://wwwinfo.mfcr.cz/ares/ares_xml_basic.html.cz for more information about possible query string params
 	 * @param string $in Subject identification number
-	 * @param bool $includeExpired Search among expired subjects as well
 	 * @return Nette\Http\Url
 	 */
-	private function buildUrl($in, $includeExpired)
+	private function buildUrl($in)
 	{
 		$url = new Nette\Http\Url(self::URL);
 		$url->appendQuery([
 			'ico' => $in,
-			'aktivni' => $includeExpired ? 'false' : 'true',
 		]);
 
 		return $url;
