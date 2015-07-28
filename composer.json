@@ -19,8 +19,10 @@
 	"require": {
 		"php": ">= 5.5.0",
 		"nette/utils": "~2.2",
-		"nette/caching": "~2.2",
 		"kdyby/curl": "~2.2"
+	},
+	"suggest": {
+		"nette/caching": "Allows result caching and usage of CachingDriver."
 	},
 	"autoload": {
 		"psr-4": {

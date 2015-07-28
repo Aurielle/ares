@@ -18,14 +18,10 @@ class Ares extends Nette\Object
 	/** @var Drivers\IDriver */
 	private $driver;
 
-	/** @var Cache */
-	private $cache;
 
-
-	public function __construct(Drivers\IDriver $driver, Cache $cache)
+	public function __construct(Drivers\IDriver $driver)
 	{
 		$this->driver = $driver;
-		$this->cache = $cache;
 	}
 
 
@@ -81,13 +77,6 @@ class Ares extends Nette\Object
 			throw new ValidationException('This identification number does not meet schematic requirements and therefore is invalid.');
 		}
 
-		$data = $this->cache->get($in);
-		if ($data === NULL) {
-			/** @var Subject $data */
-			$data = $this->driver->fetch($in);
-			return $this->cache->save($in, $data);
-		}
-
-		return $data;
+		return $this->driver->fetch($in);
 	}
 }
