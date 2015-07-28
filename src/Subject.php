@@ -1,7 +1,7 @@
 <?php
 /**
  * This file is part of Ares.
- * Copyright (c) 2015 Václav Vrbka (http://aurielle.cz)
+ * Copyright (c) 2015 GRIFART spol. s r.o. (https://grifart.cz)
  */
 
 namespace Grifart\Ares;
