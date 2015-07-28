@@ -4,7 +4,9 @@
  * Copyright (c) 2015 Václav Vrbka (http://aurielle.cz)
  */
 
-namespace Grifart\Ares;
+namespace Grifart\Ares\Drivers;
+
+use Grifart\Ares;
 
 
 interface IDriver
@@ -13,7 +15,7 @@ interface IDriver
 	 * Fetches data of one subject identified by his IN from the ARES database.
 	 * @param string $in
 	 * @param bool $includeExpired
-	 * @return Subject
+	 * @return Ares\Subject
 	 */
 	function fetch($in, $includeExpired = FALSE);
 }

@@ -4,16 +4,19 @@
  * Copyright (c) 2015 Václav Vrbka (http://aurielle.cz)
  */
 
-namespace Grifart\Ares;
+namespace Grifart\Ares\Drivers;
 
+use Grifart\Ares;
 use Kdyby\Curl;
 use Nette;
 
 
 /**
- * Information fetching layer for Ares. Do not use standalone.
+ * Data fetching layer via the Basic service provided by ARES.
+ * @see http://wwwinfo.mfcr.cz/ares/ares_xml_basic.html.cz
+ * @see http://wwwinfo.mfcr.cz/ares/ares_xml_basic.html.en
  */
-class HttpDriver extends Nette\Object implements IDriver
+class BasicDriver extends Nette\Object implements IDriver
 {
 	/** URL for API requests */
 	const URL = 'http://wwwinfo.mfcr.cz/cgi-bin/ares/darv_bas.cgi';
@@ -36,10 +39,10 @@ class HttpDriver extends Nette\Object implements IDriver
 	 *
 	 * @param string $in
 	 * @param bool $includeExpired
-	 * @return Subject
-	 * @throws FailedRequestException
-	 * @throws UnknownSubjectException
-	 * @throws XmlParsingException
+	 * @return Ares\Subject
+	 * @throws Ares\FailedRequestException
+	 * @throws Ares\UnknownSubjectException
+	 * @throws Ares\XmlParsingException
 	 */
 	public function fetch($in, $includeExpired = FALSE)
 	{
@@ -47,7 +50,7 @@ class HttpDriver extends Nette\Object implements IDriver
 			$request = new Curl\Request($this->buildUrl($in, $includeExpired));
 			$response = $this->curlSender->send($request);
 		} catch (\Exception $e) {
-			throw new FailedRequestException('Querying ARES database failed: ' . $e->getMessage(), $e->getCode(), $e);
+			throw new Ares\FailedRequestException('Querying ARES database failed: ' . $e->getMessage(), $e->getCode(), $e);
 		}
 
 		$xml = $this->parseXml($response->getResponse());
@@ -59,7 +62,7 @@ class HttpDriver extends Nette\Object implements IDriver
 			$code = (string) $info->E->EK;
 			$message = (string) $info->E->ET;
 
-			throw new UnknownSubjectException("Subject wasn't found.", $code, new NoResultException($message, $code));
+			throw new Ares\UnknownSubjectException("Subject wasn't found.", $code, new Ares\NoResultException($message, $code));
 		}
 
 		// Parse infos
@@ -73,7 +76,7 @@ class HttpDriver extends Nette\Object implements IDriver
 			$street .= '/' . $subject->AA->CO;
 		}
 
-		return new Subject([
+		return new Ares\Subject([
 			'identificationNumber' => $subject->ICO,
 			'vatIdentificationNumber' => $subject->DIC ?: NULL,
 			'vatPayer' => !empty($subject->DIC),
@@ -82,7 +85,7 @@ class HttpDriver extends Nette\Object implements IDriver
 			'street' => $street,
 			'zipCode' => $subject->AA->PSC,
 			'person' => ((int) $subject->PF->KPF) <= 108,
-			'createdAt' => new \DateTime((string) $subject->DV, new \DateTimeZone('Europe/Prague')),
+			'createdAt' => new \DateTime((string) $subject->DV, new \DateTimeZone('Europe/Prague')), // timezone definition is intentional
 		]);
 	}
 
@@ -109,7 +112,7 @@ class HttpDriver extends Nette\Object implements IDriver
 	 * @author Tomáš Jacík <http://forum.nette.org/cs/23705-navrh-na-xml-parser-pro-nette-utils>
 	 * @param string $response
 	 * @return \SimpleXMLElement
-	 * @throws XmlParsingException
+	 * @throws Ares\XmlParsingException
 	 */
 	private function parseXml($response)
 	{
@@ -121,7 +124,7 @@ class HttpDriver extends Nette\Object implements IDriver
 			libxml_clear_errors();
 			libxml_use_internal_errors($previous);
 
-			throw new XmlParsingException($errors);
+			throw new Ares\XmlParsingException($errors);
 		}
 
 		libxml_use_internal_errors($previous);

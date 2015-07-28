@@ -15,14 +15,14 @@ use Nette;
  */
 class Ares extends Nette\Object
 {
-	/** @var IDriver */
+	/** @var Drivers\IDriver */
 	private $driver;
 
 	/** @var Cache */
 	private $cache;
 
 
-	public function __construct(IDriver $driver, Cache $cache)
+	public function __construct(Drivers\IDriver $driver, Cache $cache)
 	{
 		$this->driver = $driver;
 		$this->cache = $cache;
