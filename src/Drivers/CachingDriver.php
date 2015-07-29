@@ -38,13 +38,9 @@ class CachingDriver extends Nette\Object implements IDriver
 			throw new Nette\InvalidArgumentException("Can't proxy another caching driver.");
 		}
 
-		if ((is_string($expiration) && strtotime($expiration) === FALSE) || !is_int($expiration)) {
-			throw new Nette\InvalidArgumentException("Can't parse expiration time string.");
-		}
-
 		$this->destinationDriver = $destinationDriver;
 		$this->cache = new Caching\Cache($cacheStorage, self::CACHE_IDENTIFIER);
-		$this->expiration = $expiration;
+		$this->expiration = Nette\Utils\DateTime::from($expiration);
 	}
 
 
