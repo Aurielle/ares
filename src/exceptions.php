@@ -16,7 +16,7 @@ class ValidationException extends AresException
 {
 }
 
-class IncompletePayloadException extends AresException
+class InvalidPayloadException extends AresException
 {
 }
 

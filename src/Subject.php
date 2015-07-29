@@ -54,14 +54,18 @@ class Subject extends Nette\Object
 
 	public function __construct(array $data)
 	{
-		foreach (self::$requiredData as $key) {
-			if (!array_key_exists($key, $data)) {
-				throw new IncompletePayloadException("The required key '$key' is missing from the payload.");
+		$required = self::$requiredData;
+		foreach ($data as $key => $value) {
+			if (($k = array_search($key, $required, TRUE)) === FALSE) {
+				throw new InvalidPayloadException("Extra key '$key' detected in payload.");
 			}
+
+			$this->$key = $value;
+			unset($required->$k);
 		}
 
-		foreach ($data as $key => $value) {
-			$this->$key = $value;
+		if (count($required) > 0) {
+			throw new InvalidPayloadException('Some required keys are missing from payload: ' . implode(', ', $required));
 		}
 	}
 
