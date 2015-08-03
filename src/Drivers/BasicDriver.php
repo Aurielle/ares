@@ -77,12 +77,15 @@ class BasicDriver extends Nette\Object implements IDriver
 
 		return new Ares\Subject([
 			'identificationNumber' => $subject->ICO,
-			'vatIdentificationNumber' => $subject->DIC ?: NULL,
+			'vatIdentificationNumber' => !empty($subject->DIC) ? $subject->DIC : NULL,
 			'vatPayer' => !empty($subject->DIC),
 			'name' => $subject->OF,
-			'city' => $subject->AA->N,
-			'street' => $street,
-			'zipCode' => $subject->AA->PSC,
+			'city' => !empty($subject->AA->N) ? $subject->AA->N : NULL,
+			'district' => !empty($subject->AA->NCO) ? $subject->AA->NCO : (!empty($subject->AA->NMC) ? $subject->AA->NMC : NULL),
+			'street' => !empty($subject->AA->NU) ? $subject->AA->NU : NULL,
+			'houseNumber' => !empty($subject->AA->CD) ? $subject->AA->CD : NULL,
+			'houseOrientationNumber' => !empty($subject->AA->CO) ? $subject->AA->CO : NULL,
+			'zipCode' => !empty($subject->AA->PSC) ? $subject->AA->PSC : NULL,
 			'person' => ((int) $subject->PF->KPF) <= 108,
 			'createdAt' => new \DateTime((string) $subject->DV, new \DateTimeZone('Europe/Prague')), // timezone definition is intentional
 		]);

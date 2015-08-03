@@ -27,7 +27,16 @@ class Subject extends Nette\Object
 	private $city;
 
 	/** @var string */
+	private $district;
+
+	/** @var string */
 	private $street;
+
+	/** @var string */
+	private $houseNumber;
+
+	/** @var string */
+	private $houseOrientationNumber;
 
 	/** @var int */
 	private $zipCode;
@@ -45,7 +54,10 @@ class Subject extends Nette\Object
 		'vatPayer',
 		'name',
 		'city',
+		'district',
 		'street',
+		'houseNumber',
+		'houseOrientationNumber',
 		'zipCode',
 		'person',
 		'createdAt',
@@ -113,9 +125,33 @@ class Subject extends Nette\Object
 	/**
 	 * @return string
 	 */
+	public function getDistrict()
+	{
+		return $this->district;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getStreet()
 	{
 		return $this->street;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getHouseNumber()
+	{
+		return $this->houseNumber;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getHouseOrientationNumber()
+	{
+		return $this->houseOrientationNumber;
 	}
 
 	/**
