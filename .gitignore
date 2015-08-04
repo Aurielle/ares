@@ -1,5 +1,4 @@
 composer.lock
 /vendor/
-/tests/temp/
-/nbproject/private/
+/tests/tmp
 /.idea/
