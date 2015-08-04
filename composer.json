@@ -26,10 +26,10 @@
 		"nette/caching": "Allows result caching and usage of CachingDriver."
 	},
 	"autoload": {
-		"psr-4": {
+		"psr-0": {
 			"Grifart\\Ares\\": "src/"
 		},
-		"files": ["src/exceptions.php"]
+		"files": ["src/Grifart/Ares/exceptions.php"]
 	},
 	"require-dev": {
 		"tracy/tracy": "~2.0",
