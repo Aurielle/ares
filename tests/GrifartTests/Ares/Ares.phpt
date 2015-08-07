@@ -66,6 +66,7 @@ class AresTest extends Tester\TestCase
 	public function testValidateIdentificationNumber_givenIncorrectNumber_thenReturnsFalse()
 	{
 //		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('1')); // this IN is considered valid for reasons unknown
+//		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('00000001')); // this IN is considered valid for reasons unknown
 		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('12345678'));
 		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('87654321'));
 	}

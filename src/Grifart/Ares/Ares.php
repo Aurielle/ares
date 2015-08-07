@@ -87,6 +87,12 @@ class Ares extends Nette\Object
 	public function findDetails($in)
 	{
 		$in = (string) $in;
+
+		// pad with zeroes from the left if length < 8
+		if (Nette\Utils\Strings::length($in) < 8) {
+			$in = str_pad($in, 8, '0', STR_PAD_LEFT);
+		}
+
 		if (!self::validateIdentificationNumber($in)) {
 			throw new ValidationException('This identification number does not meet schematic requirements and therefore is invalid.');
 		}
