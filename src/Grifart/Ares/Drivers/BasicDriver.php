@@ -66,14 +66,6 @@ class BasicDriver extends Nette\Object implements IDriver
 
 		// Parse infos
 		$subject = $info->VBAS;
-		$street = (string) $subject->AD->UC;
-		if (is_numeric($street)) {
-			$street = $subject->AA->NCO . ' ' . $street;
-		}
-
-		if (isset($subject->AA->CO)) {
-			$street .= '/' . $subject->AA->CO;
-		}
 
 		return new Ares\Subject([
 			'identificationNumber' => $subject->ICO,
