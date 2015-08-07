@@ -32,13 +32,27 @@ class Ares extends Nette\Object
 	 * @see http://phpfashion.com/jak-overit-platne-ic-a-rodne-cislo
 	 * @author David Grudl
 	 *
-	 * @param string|int $in Identification number to validate
+	 * @param string $in Identification number to validate
 	 * @return bool
 	 */
 	public static function validateIdentificationNumber($in)
 	{
+		if (!is_string($in)) {
+			// disallow all other types except strings
+			$type = gettype($in);
+			throw new Nette\InvalidArgumentException(
+				is_int($in) ? 'Please pass the identification number as a string, integers can cause problems.'
+					: "Identification number can't be of type $type."
+			);
+		}
+
 		// be liberal in what you receive
 		$in = preg_replace('#\s+#', '', $in);
+
+		// pad with zeroes from the left if length < 8
+		if (Nette\Utils\Strings::length($in) < 8) {
+			$in = str_pad($in, 8, '0', STR_PAD_LEFT);
+		}
 
 		// is exactly 8 digits?
 		if (!preg_match('#^\d{8}$#', $in)) {
@@ -66,7 +80,7 @@ class Ares extends Nette\Object
 	/**
 	 * Fetches details about an identification number.
 	 *
-	 * @param string|int $in
+	 * @param string $in
 	 * @return Subject
 	 * @throws ValidationException
 	 */

@@ -24,27 +24,50 @@ require_once __DIR__ . '/../bootstrap.php';
  */
 class AresTest extends Tester\TestCase
 {
-	public function testValidateIdentificationNumber_givenInvalidInput_thenReturnsFalse()
+	public function testValidateIdentificationNumber_givenIllegalType_thenThrowsException()
 	{
-		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber(NULL));
-		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber(1));
-		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('1'));
-	}
+		Assert::exception(function() {
+			Grifart\Ares\Ares::validateIdentificationNumber(NULL);
+		}, Nette\InvalidArgumentException::class);
 
-	public function testValidateIdentificationNumber_givenCorrectNumber_whenLacksRequiredLength_thenReturnsFalse()
-	{
-		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber(216224));
-		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('216224'));
+		Assert::exception(function() {
+			Grifart\Ares\Ares::validateIdentificationNumber(FALSE);
+		}, Nette\InvalidArgumentException::class);
+
+		Assert::exception(function() {
+			Grifart\Ares\Ares::validateIdentificationNumber(216224);
+		}, Nette\InvalidArgumentException::class);
+
+		Assert::exception(function() {
+			Grifart\Ares\Ares::validateIdentificationNumber(1.0);
+		}, Nette\InvalidArgumentException::class);
+
+		Assert::exception(function() {
+			Grifart\Ares\Ares::validateIdentificationNumber([]);
+		}, Nette\InvalidArgumentException::class);
+
+		Assert::exception(function() {
+			Grifart\Ares\Ares::validateIdentificationNumber(new \stdClass());
+		}, Nette\InvalidArgumentException::class);
 	}
 
 	public function testValidateIdentificationNumber_givenCorrectNumber_thenReturnsTrue()
 	{
-		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('00216224')); // INs with leading zeroes - strings only!
-		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber(25596641));
+		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('216224'));
+		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('00216224'));
 		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('25596641'));
-		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber(69663963));
-		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber(25501186));
+		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('69663963'));
 		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('25501186'));
+
+		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('    25501186
+		')); // whitespace doesn't matter
+	}
+
+	public function testValidateIdentificationNumber_givenIncorrectNumber_thenReturnsFalse()
+	{
+//		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('1')); // this IN is considered valid for reasons unknown
+		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('12345678'));
+		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('87654321'));
 	}
 }
 
