@@ -58,6 +58,9 @@ class AresTest extends Tester\TestCase
 		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('25596641'));
 		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('69663963'));
 		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('25501186'));
+		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('1'));
+		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('00000001'));
+		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('99999994'));
 
 		Assert::true(Grifart\Ares\Ares::validateIdentificationNumber('    25501186
 		')); // whitespace doesn't matter
@@ -65,10 +68,12 @@ class AresTest extends Tester\TestCase
 
 	public function testValidateIdentificationNumber_givenIncorrectNumber_thenReturnsFalse()
 	{
-//		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('1')); // this IN is considered valid for reasons unknown
-//		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('00000001')); // this IN is considered valid for reasons unknown
 		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('12345678'));
 		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('87654321'));
+		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('99999995'));
+		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('99999999'));
+		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('1234567890'));
+		Assert::false(Grifart\Ares\Ares::validateIdentificationNumber('foo bar'));
 	}
 }
 
