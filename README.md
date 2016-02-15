@@ -1,4 +1,4 @@
-Ares
+[ABANDONED] Ares
 ====
 
 [![Build Status](https://travis-ci.org/Aurielle/ares.png?branch=master)](https://travis-ci.org/Aurielle/ares)
